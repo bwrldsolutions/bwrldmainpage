@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>bwrld — services</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .tier-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .tier-card {
+      background: var(--glass);
+      border: 1px solid var(--glassborder);
+      border-radius: 20px;
+      padding: 2rem;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .tier-card:hover { transform: translateY(-5px); border-color: rgba(196,181,253,0.25); }
+    .tier-card.featured {
+      border-color: rgba(124,58,237,0.4);
+      background: rgba(124,58,237,0.08);
+    }
+    .tier-card.featured::before {
+      content: 'most popular';
+      position: absolute;
+      top: 1rem; right: 1rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      color: var(--lavender);
+      background: rgba(124,58,237,0.2);
+      border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 100px;
+      padding: 0.2rem 0.6rem;
+    }
+    .tier-name {
+      font-family: 'Sora', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--lavender);
+    }
+    .tier-price {
+      font-family: 'Sora', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.25rem;
+    }
+    .tier-freq { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .tier-features { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .tier-features li {
+      font-size: 0.875rem;
+      color: var(--muted);
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+    }
+    .tier-features li::before { content: '✦'; color: var(--cyan); font-size: 0.6rem; margin-top: 0.3rem; flex-shrink: 0; }
+    .tier-cta { margin-top: 1.75rem; width: 100%; text-align: center; }
+
+    .process-list { margin-top: 3.5rem; display: flex; flex-direction: column; gap: 1px; }
+    .process-item {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--glassborder);
+    }
+    .process-item:last-child { border-bottom: none; }
+    .process-num {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--violet);
+      font-weight: 600;
+      padding-top: 0.2rem;
+    }
+    .process-item h3 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .process-item p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+    #stats-bar {
+      background: var(--deep);
+      padding: 4rem 5%;
+    }
+    .stats-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 2rem;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Sora', sans-serif;
+      font-size: 2.75rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, var(--lavender), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; }
+
+    .cta-band {
+      background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(6,182,212,0.08));
+      border-top: 1px solid rgba(196,181,253,0.1);
+      border-bottom: 1px solid rgba(196,181,253,0.1);
+      padding: 5rem 5%;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">bwrld</a>
+  <ul>
+    <li><a href="services.html" class="active">services</a></li>
+    <li><a href="portfolio.html">portfolio</a></li>
+    <li><a href="about.html">about</a></li>
+    <li><a href="contact.html" class="nav-cta">get in touch</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+  <div class="page-hero-content">
+    <div class="eyebrow"><span></span> what we build</div>
+    <h1>server infrastructure<br/><span class="grad-text">done right</span></h1>
+    <p class="hero-sub">from bare-metal servers to fully managed cloud-adjacent systems — bwrld builds infrastructure that performs, scales, and never sleeps.</p>
+    <div class="hero-btns">
+      <a href="contact.html" class="btn-primary">get a quote</a>
+      <a href="#process" class="btn-ghost">see how it works</a>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<section id="stats-bar">
+  <div class="stats-inner">
+    <div class="reveal"><div class="stat-num">40+</div><div class="stat-label">servers deployed</div></div>
+    <div class="reveal"><div class="stat-num">99.9%</div><div class="stat-label">uptime guaranteed</div></div>
+    <div class="reveal"><div class="stat-num">&lt;1ms</div><div class="stat-label">avg latency</div></div>
+    <div class="reveal"><div class="stat-num">24/7</div><div class="stat-label">monitoring</div></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section>
+  <div class="center reveal">
+    <span class="section-label">// our services</span>
+    <h2 class="section-title">everything you need<br/><span class="grad-text">in one place</span></h2>
+    <p class="section-sub">we handle the infrastructure so you can focus on building your product.</p>
+  </div>
+  <div class="services-grid">
+    <div class="card reveal">
+      <div class="card-icon icon-violet">🖥️</div>
+      <h3>bare-metal servers</h3>
+      <p>purpose-built hardware for workloads that demand raw performance. no hypervisor overhead — just your application and the metal beneath it.</p>
+      <span class="card-tag">custom builds · colocation · rack hosting</span>
+    </div>
+    <div class="card reveal">
+      <div class="card-icon icon-cyan">📡</div>
+      <h3>network infrastructure</h3>
+      <p>high-throughput, low-latency networking with redundant uplinks, BGP routing, and DDoS mitigation baked in from day one.</p>
+      <span class="card-tag">cdn · fiber · bgp · ddos protection</span>
+    </div>
+    <div class="card reveal">
+      <div class="card-icon icon-indigo">☁️</div>
+      <h3>hybrid cloud systems</h3>
+      <p>the best of both worlds — private infrastructure with cloud-style orchestration. deploy anywhere, manage from one pane of glass.</p>
+      <span class="card-tag">kubernetes · terraform · hybrid</span>
+    </div>
+    <div class="card reveal">
+      <div class="card-icon icon-violet">🔒</div>
+      <h3>managed security</h3>
+      <p>zero-trust architecture, hardware security modules, intrusion detection, and compliance tooling — all managed for you.</p>
+      <span class="card-tag">zero-trust · hsm · soc2 · iso27001</span>
+    </div>
+    <div class="card reveal">
+      <div class="card-icon icon-cyan">💾</div>
+      <h3>storage systems</h3>
+      <p>high-availability storage clusters built for throughput. nvme arrays, object storage, and tape archiving for every retention need.</p>
+      <span class="card-tag">nvme · object storage · backup</span>
+    </div>
+    <div class="card reveal">
+      <div class="card-icon icon-green">🛠️</div>
+      <h3>managed devops</h3>
+      <p>ci/cd pipelines, monitoring stacks, and on-call engineering — so your team ships fast without waking up at 3am.</p>
+      <span class="card-tag">ci/cd · prometheus · on-call</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRICING TIERS -->
+<section>
+  <div class="center reveal">
+    <span class="section-label">// pricing</span>
+    <h2 class="section-title">simple, transparent<br/><span class="grad-text">pricing</span></h2>
+    <p class="section-sub">no hidden fees, no surprise bills. pick the tier that fits and scale from there.</p>
+  </div>
+  <div class="tier-grid">
+    <div class="tier-card reveal">
+      <div class="tier-name">starter</div>
+      <div class="tier-price grad-text">£299</div>
+      <div class="tier-freq">/ month</div>
+      <ul class="tier-features">
+        <li>1 dedicated server</li>
+        <li>1 Gbps uplink</li>
+        <li>5 TB bandwidth</li>
+        <li>basic monitoring</li>
+        <li>email support</li>
+      </ul>
+      <div class="tier-cta"><a href="contact.html" class="btn-ghost" style="width:100%;display:block">get started</a></div>
+    </div>
+    <div class="tier-card featured reveal">
+      <div class="tier-name">growth</div>
+      <div class="tier-price grad-text">£799</div>
+      <div class="tier-freq">/ month</div>
+      <ul class="tier-features">
+        <li>3 dedicated servers</li>
+        <li>10 Gbps uplink</li>
+        <li>20 TB bandwidth</li>
+        <li>full monitoring stack</li>
+        <li>ddos protection</li>
+        <li>priority support</li>
+      </ul>
+      <div class="tier-cta"><a href="contact.html" class="btn-primary" style="width:100%;display:block">get started</a></div>
+    </div>
+    <div class="tier-card reveal">
+      <div class="tier-name">enterprise</div>
+      <div class="tier-price grad-text">custom</div>
+      <div class="tier-freq">talk to us</div>
+      <ul class="tier-features">
+        <li>unlimited servers</li>
+        <li>multi-site redundancy</li>
+        <li>unlimited bandwidth</li>
+        <li>soc2 compliance</li>
+        <li>dedicated account manager</li>
+        <li>sla-backed 99.99% uptime</li>
+      </ul>
+      <div class="tier-cta"><a href="contact.html" class="btn-ghost" style="width:100%;display:block">contact us</a></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROCESS -->
+<section id="process" style="background: var(--deep);">
+  <div class="reveal">
+    <span class="section-label">// how it works</span>
+    <h2 class="section-title">from brief to<br/><span class="grad-text">live in days</span></h2>
+  </div>
+  <div class="process-list">
+    <div class="process-item reveal">
+      <div class="process-num">01</div>
+      <div>
+        <h3>discovery call</h3>
+        <p>we sit down with you (virtually or in person) to understand your workload, scale requirements, compliance needs, and budget. no sales fluff — just real engineering questions.</p>
+      </div>
+    </div>
+    <div class="process-item reveal">
+      <div class="process-num">02</div>
+      <div>
+        <h3>architecture design</h3>
+        <p>our team designs a custom infrastructure blueprint tailored to your needs — hardware specs, network topology, security posture, and disaster recovery strategy.</p>
+      </div>
+    </div>
+    <div class="process-item reveal">
+      <div class="process-num">03</div>
+      <div>
+        <h3>build & deploy</h3>
+        <p>we procure, rack, and configure everything. servers are burned in, tested under load, and hardened before a single byte of your data touches them.</p>
+      </div>
+    </div>
+    <div class="process-item reveal">
+      <div class="process-num">04</div>
+      <div>
+        <h3>handover & ongoing support</h3>
+        <p>you go live with full documentation, runbooks, and access to our monitoring dashboard. we stay on for managed support or step back for self-managed setups — your call.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-band reveal">
+  <span class="section-label">// ready to build?</span>
+  <h2 class="section-title">let's talk<br/><span class="grad-text">infrastructure</span></h2>
+  <p class="section-sub" style="margin: 0 auto 2.5rem;">tell us what you're building and we'll put together a solution that actually fits.</p>
+  <a href="contact.html" class="btn-primary">get in touch</a>
+</section>
+
+<footer>
+  <a href="index.html" class="footer-logo">bwrld</a>
+  <p>© 2025 bwrld · a spark institute of technology company</p>
+  <div class="footer-links">
+    <a href="services.html">services</a>
+    <a href="portfolio.html">portfolio</a>
+    <a href="about.html">about</a>
+    <a href="contact.html">contact</a>
+  </div>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible'); }), { threshold: 0.1 });
+  els.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>bwrld — contact</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 5rem;
+      align-items: start;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .contact-info h2 {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+    .contact-info p { font-size: 0.95rem; color: var(--muted); line-height: 1.8; margin-bottom: 2.5rem; font-weight: 300; }
+
+    .contact-methods { display: flex; flex-direction: column; gap: 1.25rem; }
+    .contact-method {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem;
+      background: var(--glass);
+      border: 1px solid var(--glassborder);
+      border-radius: 14px;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .contact-method:hover { border-color: rgba(196,181,253,0.3); background: rgba(255,255,255,0.07); }
+    .method-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .method-label { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.07em; }
+    .method-val { font-size: 0.9rem; color: var(--white); font-weight: 500; margin-top: 0.15rem; }
+
+    /* form */
+    .contact-form-wrap {
+      background: var(--glass);
+      border: 1px solid var(--glassborder);
+      border-radius: 24px;
+      padding: 2.75rem;
+      backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-form-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(196,181,253,0.5), transparent);
+    }
+    .form-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .form-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.45rem; margin-bottom: 1.1rem; }
+    .form-group label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.05em; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--glassborder);
+      border-radius: 10px;
+      padding: 0.8rem 1rem;
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+      outline: none;
+      width: 100%;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(148,163,184,0.5); }
+    .form-group select option { background: #0d1427; }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: rgba(124,58,237,0.5); background: rgba(124,58,237,0.05); }
+    .form-group textarea { resize: vertical; min-height: 130px; }
+
+    .form-submit { width: 100%; padding: 0.9rem; margin-top: 0.5rem; cursor: pointer; border: none; font-family: 'Sora', sans-serif; }
+
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 1.5rem;
+    }
+    .success-msg .tick { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .success-msg h3 { font-family: 'Sora', sans-serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .success-msg p { font-size: 0.875rem; color: var(--muted); }
+
+    /* FAQ */
+    .faq-list { margin-top: 3rem; display: flex; flex-direction: column; gap: 1px; }
+    .faq-item {
+      border-bottom: 1px solid var(--glassborder);
+      overflow: hidden;
+    }
+    .faq-q {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 1.5rem 0;
+      cursor: pointer;
+      text-align: left;
+      gap: 1rem;
+    }
+    .faq-q:hover { color: var(--lavender); }
+    .faq-icon { color: var(--lavender); font-size: 1.25rem; flex-shrink: 0; transition: transform 0.3s; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.75;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+    .faq-item.open .faq-a { max-height: 200px; padding-bottom: 1.5rem; }
+
+    @media (max-width: 768px) {
+      .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">bwrld</a>
+  <ul>
+    <li><a href="services.html">services</a></li>
+    <li><a href="portfolio.html">portfolio</a></li>
+    <li><a href="about.html">about</a></li>
+    <li><a href="contact.html" class="active nav-cta">get in touch</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero" style="padding-bottom: 3rem;">
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+  <div class="page-hero-content">
+    <div class="eyebrow"><span></span> let's talk</div>
+    <h1>say<br/><span class="grad-text">hello</span></h1>
+    <p class="hero-sub">whether it's infrastructure, investment opportunities, or a partnership — we're always open to the right conversation.</p>
+  </div>
+</div>
+
+<section>
+  <div class="contact-layout">
+
+    <!-- LEFT: info -->
+    <div>
+      <div class="reveal">
+        <span class="section-label">// reach us</span>
+        <h2>we'd love to<br/><span class="grad-text">hear from you</span></h2>
+        <p>drop us a message using the form or reach us directly. we aim to respond to every enquiry within one business day.</p>
+      </div>
+      <div class="contact-methods reveal">
+        <a href="mailto:hello@bwrld.io" class="contact-method">
+          <div class="method-icon icon-violet">✉️</div>
+          <div>
+            <div class="method-label">email us</div>
+            <div class="method-val">hello@bwrld.io</div>
+          </div>
+        </a>
+        <a href="mailto:invest@bwrld.io" class="contact-method">
+          <div class="method-icon icon-cyan">📈</div>
+          <div>
+            <div class="method-label">investment enquiries</div>
+            <div class="method-val">invest@bwrld.io</div>
+          </div>
+        </a>
+        <a href="mailto:support@bwrld.io" class="contact-method">
+          <div class="method-icon icon-indigo">🛠️</div>
+          <div>
+            <div class="method-label">technical support</div>
+            <div class="method-val">support@bwrld.io</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- RIGHT: form -->
+    <div class="contact-form-wrap reveal">
+      <div id="form-area">
+        <div class="form-title">send us a message</div>
+        <div class="form-sub">fill in the details below and we'll be in touch.</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>first name</label>
+            <input type="text" placeholder="alex" id="fname" />
+          </div>
+          <div class="form-group">
+            <label>last name</label>
+            <input type="text" placeholder="morgan" id="lname" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>email address</label>
+          <input type="email" placeholder="you@company.com" id="email" />
+        </div>
+
+        <div class="form-group">
+          <label>company (optional)</label>
+          <input type="text" placeholder="your company" id="company" />
+        </div>
+
+        <div class="form-group">
+          <label>what's this about?</label>
+          <select id="subject">
+            <option value="" disabled selected>select a topic</option>
+            <option>server infrastructure</option>
+            <option>investment opportunity</option>
+            <option>partnership</option>
+            <option>technical support</option>
+            <option>something else</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>message</label>
+          <textarea placeholder="tell us what you're working on…" id="message"></textarea>
+        </div>
+
+        <button class="btn-primary form-submit" onclick="submitForm()">send message →</button>
+      </div>
+
+      <div class="success-msg" id="success">
+        <div class="tick">✦</div>
+        <h3>message sent!</h3>
+        <p>thanks for reaching out. we'll get back to you within one business day.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section style="background: var(--deep);">
+  <div class="center reveal" style="margin-bottom: 1rem;">
+    <span class="section-label">// common questions</span>
+    <h2 class="section-title">faq</h2>
+  </div>
+  <div class="faq-list" style="max-width: 700px; margin: 0 auto;">
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        how quickly can you deploy infrastructure?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">for standard builds, we can have a server live within 3–5 business days. custom enterprise deployments typically take 2–4 weeks depending on hardware lead times and complexity.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        do you work with startups or only enterprises?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">both. our starter tier is designed for growing companies that need real infrastructure without the enterprise price tag. we scale with you as you grow.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        can we invest alongside bwrld's portfolio?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">on a case-by-case basis, yes. if you're interested in co-investment opportunities, reach out via invest@bwrld.io and we'll discuss what's available.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        where are your servers located?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">we currently operate across europe, north america, and west africa. we're adding new regions in 2025 — get in touch if a specific location is important to you.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        what sla do you offer?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">our growth and enterprise tiers come with sla-backed uptime guarantees — 99.9% for growth, and 99.99% for enterprise. we put our commitments in writing.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="index.html" class="footer-logo">bwrld</a>
+  <p>© 2025 bwrld · a spark institute of technology company</p>
+  <div class="footer-links">
+    <a href="services.html">services</a>
+    <a href="portfolio.html">portfolio</a>
+    <a href="about.html">about</a>
+    <a href="contact.html">contact</a>
+  </div>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible'); }), { threshold: 0.1 });
+  els.forEach(el => obs.observe(el));
+
+  function submitForm() {
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+    if (!email || !message) { alert('please fill in at least your email and message'); return; }
+    document.getElementById('form-area').style.display = 'none';
+    document.getElementById('success').style.display = 'block';
+  }
+
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>

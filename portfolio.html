@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>bwrld — portfolio</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .ov-card {
+      background: var(--glass);
+      border: 1px solid var(--glassborder);
+      border-radius: 18px;
+      padding: 1.75rem;
+      backdrop-filter: blur(12px);
+      text-align: center;
+    }
+    .ov-num {
+      font-family: 'Sora', sans-serif;
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, var(--lavender), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .ov-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.35rem; }
+    .ov-change { font-size: 0.8rem; color: #34d399; margin-top: 0.2rem; }
+
+    /* sparkline card */
+    .spark-hero {
+      background: var(--glass);
+      border: 1px solid var(--glassborder);
+      border-radius: 24px;
+      padding: 2.5rem;
+      backdrop-filter: blur(16px);
+      margin-top: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .spark-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(196,181,253,0.5), transparent);
+    }
+    .spark-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
+    .spark-val {
+      font-family: 'Sora', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+    .spark-change { font-size: 0.85rem; color: #34d399; margin-top: 0.25rem; }
+    .spark-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+
+    /* holdings */
+    .holdings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .holding-card {
+      background: var(--glass);
+      border: 1px solid var(--glassborder);
+      border-radius: 18px;
+      padding: 1.75rem;
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .holding-card:hover { transform: translateY(-4px); border-color: rgba(196,181,253,0.2); }
+    .holding-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .holding-name { font-family: 'Sora', sans-serif; font-size: 1rem; font-weight: 600; }
+    .holding-sector {
+      font-size: 0.68rem;
+      letter-spacing: 0.07em;
+      color: var(--lavender);
+      background: rgba(124,58,237,0.12);
+      border: 1px solid rgba(124,58,237,0.2);
+      border-radius: 100px;
+      padding: 0.2rem 0.65rem;
+    }
+    .holding-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.25rem; }
+    .holding-meta { display: flex; justify-content: space-between; font-size: 0.8rem; }
+    .holding-val { font-family: 'Sora', sans-serif; font-weight: 600; }
+    .holding-up { color: #34d399; }
+    .holding-down { color: #f87171; }
+
+    /* sectors */
+    .sectors-wrap { margin-top: 3rem; display: flex; flex-direction: column; gap: 1rem; }
+    .sector-row { display: flex; align-items: center; gap: 1.25rem; }
+    .sector-name { font-size: 0.85rem; color: var(--muted); width: 140px; flex-shrink: 0; }
+    .sector-bar-bg { flex: 1; height: 6px; background: var(--glassborder); border-radius: 100px; overflow: hidden; }
+    .sector-bar { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--violet), var(--cyan)); transition: width 1s ease; }
+    .sector-pct { font-size: 0.8rem; color: var(--lavender); font-family: 'Sora', sans-serif; font-weight: 600; width: 36px; text-align: right; }
+
+    .thesis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .thesis-card {
+      background: var(--glass);
+      border: 1px solid var(--glassborder);
+      border-radius: 18px;
+      padding: 2rem;
+      backdrop-filter: blur(12px);
+    }
+    .thesis-num { font-family: 'Sora', sans-serif; font-size: 2rem; font-weight: 800; color: var(--violet); margin-bottom: 0.75rem; opacity: 0.5; }
+    .thesis-card h3 { font-family: 'Sora', sans-serif; font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .thesis-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.7; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">bwrld</a>
+  <ul>
+    <li><a href="services.html">services</a></li>
+    <li><a href="portfolio.html" class="active">portfolio</a></li>
+    <li><a href="about.html">about</a></li>
+    <li><a href="contact.html" class="nav-cta">get in touch</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+  <div class="page-hero-content">
+    <div class="eyebrow"><span></span> investments</div>
+    <h1>capital that<br/><span class="grad-text">moves smart</span></h1>
+    <p class="hero-sub">bwrld's investment arm backs the ideas, companies, and assets we believe will define the next decade of technology and infrastructure.</p>
+  </div>
+</div>
+
+<!-- OVERVIEW NUMBERS -->
+<section style="background: var(--deep); padding: 4rem 5%;">
+  <div class="overview-grid">
+    <div class="ov-card reveal"><div class="ov-num">$2.4M</div><div class="ov-label">total aum</div><div class="ov-change">▲ 18.4% qtd</div></div>
+    <div class="ov-card reveal"><div class="ov-num">12</div><div class="ov-label">active holdings</div><div class="ov-change">▲ 3 this year</div></div>
+    <div class="ov-card reveal"><div class="ov-num">6</div><div class="ov-label">sectors</div></div>
+    <div class="ov-card reveal"><div class="ov-num">3</div><div class="ov-label">continents</div></div>
+  </div>
+
+  <!-- SPARKLINE CHART -->
+  <div class="spark-hero reveal">
+    <div class="spark-header">
+      <div>
+        <div class="spark-label">portfolio value · all time</div>
+        <div class="spark-val grad-text">$2,412,800</div>
+        <div class="spark-change">▲ $384,200 (18.4%) this quarter</div>
+      </div>
+    </div>
+    <svg viewBox="0 0 800 120" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto">
+      <defs>
+        <linearGradient id="fill-grad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#06b6d4" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="line-grad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#7c3aed"/>
+          <stop offset="100%" stop-color="#06b6d4"/>
+        </linearGradient>
+      </defs>
+      <path d="M0 100 L60 95 L120 88 L180 90 L240 78 L300 70 L360 72 L420 58 L480 50 L540 42 L600 35 L660 28 L720 18 L800 10"
+            stroke="url(#line-grad)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M0 100 L60 95 L120 88 L180 90 L240 78 L300 70 L360 72 L420 58 L480 50 L540 42 L600 35 L660 28 L720 18 L800 10 L800 120 L0 120Z"
+            fill="url(#fill-grad)"/>
+    </svg>
+  </div>
+</section>
+
+<!-- HOLDINGS -->
+<section>
+  <div class="center reveal">
+    <span class="section-label">// active holdings</span>
+    <h2 class="section-title">what we're<br/><span class="grad-text">backing</span></h2>
+    <p class="section-sub">a curated view of our current portfolio — diverse in sector, united by conviction.</p>
+  </div>
+  <div class="holdings-grid">
+    <div class="holding-card reveal">
+      <div class="holding-top"><div class="holding-name">infracore systems</div><div class="holding-sector">infrastructure</div></div>
+      <div class="holding-desc">a next-gen data centre operator building hyperscale facilities optimised for ai workloads.</div>
+      <div class="holding-meta"><span class="holding-val grad-text">$480k</span><span class="holding-up">▲ 24.3%</span></div>
+    </div>
+    <div class="holding-card reveal">
+      <div class="holding-top"><div class="holding-name">stackr.io</div><div class="holding-sector">deep tech</div></div>
+      <div class="holding-desc">developer tooling for infrastructure-as-code — making cloud deployments feel as simple as a push to git.</div>
+      <div class="holding-meta"><span class="holding-val grad-text">$310k</span><span class="holding-up">▲ 31.7%</span></div>
+    </div>
+    <div class="holding-card reveal">
+      <div class="holding-top"><div class="holding-name">solara energy</div><div class="holding-sector">energy</div></div>
+      <div class="holding-desc">distributed solar microgrids purpose-built for powering remote compute facilities off the main grid.</div>
+      <div class="holding-meta"><span class="holding-val grad-text">$260k</span><span class="holding-up">▲ 12.1%</span></div>
+    </div>
+    <div class="holding-card reveal">
+      <div class="holding-top"><div class="holding-name">vektor ai</div><div class="holding-sector">ai + data</div></div>
+      <div class="holding-desc">vector database infrastructure powering the retrieval layer for enterprise ai applications at scale.</div>
+      <div class="holding-meta"><span class="holding-val grad-text">$390k</span><span class="holding-up">▲ 42.8%</span></div>
+    </div>
+    <div class="holding-card reveal">
+      <div class="holding-top"><div class="holding-name">meridian logistics</div><div class="holding-sector">emerging markets</div></div>
+      <div class="holding-desc">last-mile logistics infrastructure in west africa, built on a proprietary routing and tracking platform.</div>
+      <div class="holding-meta"><span class="holding-val grad-text">$180k</span><span class="holding-up">▲ 8.4%</span></div>
+    </div>
+    <div class="holding-card reveal">
+      <div class="holding-top"><div class="holding-name">chipwright</div><div class="holding-sector">hardware</div></div>
+      <div class="holding-desc">fabless semiconductor startup designing custom asics for low-power edge inference applications.</div>
+      <div class="holding-meta"><span class="holding-val grad-text">$220k</span><span class="holding-down">▼ 3.1%</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTOR BREAKDOWN -->
+<section style="background: var(--deep);">
+  <div style="max-width: 700px;">
+    <div class="reveal">
+      <span class="section-label">// allocation</span>
+      <h2 class="section-title">sector<br/><span class="grad-text">breakdown</span></h2>
+    </div>
+    <div class="sectors-wrap">
+      <div class="sector-row reveal">
+        <div class="sector-name">infrastructure</div>
+        <div class="sector-bar-bg"><div class="sector-bar" style="width:38%"></div></div>
+        <div class="sector-pct">38%</div>
+      </div>
+      <div class="sector-row reveal">
+        <div class="sector-name">ai + data</div>
+        <div class="sector-bar-bg"><div class="sector-bar" style="width:24%"></div></div>
+        <div class="sector-pct">24%</div>
+      </div>
+      <div class="sector-row reveal">
+        <div class="sector-name">deep tech</div>
+        <div class="sector-bar-bg"><div class="sector-bar" style="width:16%"></div></div>
+        <div class="sector-pct">16%</div>
+      </div>
+      <div class="sector-row reveal">
+        <div class="sector-name">energy</div>
+        <div class="sector-bar-bg"><div class="sector-bar" style="width:11%"></div></div>
+        <div class="sector-pct">11%</div>
+      </div>
+      <div class="sector-row reveal">
+        <div class="sector-name">emerging markets</div>
+        <div class="sector-bar-bg"><div class="sector-bar" style="width:7%"></div></div>
+        <div class="sector-pct">7%</div>
+      </div>
+      <div class="sector-row reveal">
+        <div class="sector-name">hardware</div>
+        <div class="sector-bar-bg"><div class="sector-bar" style="width:4%"></div></div>
+        <div class="sector-pct">4%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- THESIS -->
+<section>
+  <div class="center reveal">
+    <span class="section-label">// our thesis</span>
+    <h2 class="section-title">we invest in<br/><span class="grad-text">what we understand</span></h2>
+    <p class="section-sub">as builders first, we have an edge when evaluating infrastructure bets. here's how we think.</p>
+  </div>
+  <div class="thesis-grid">
+    <div class="thesis-card reveal">
+      <div class="thesis-num">01</div>
+      <h3>deep conviction over diversification</h3>
+      <p>we'd rather own 12 companies we deeply believe in than 50 we sort-of like. concentration is a feature, not a bug.</p>
+    </div>
+    <div class="thesis-card reveal">
+      <div class="thesis-num">02</div>
+      <h3>builders backing builders</h3>
+      <p>our team has shipped infrastructure at scale. we know what good engineering looks like — and what corners you can't cut.</p>
+    </div>
+    <div class="thesis-card reveal">
+      <div class="thesis-num">03</div>
+      <h3>long time horizons</h3>
+      <p>we're not optimising for the next quarter. great infrastructure takes time to build and compound — and so does great capital.</p>
+    </div>
+    <div class="thesis-card reveal">
+      <div class="thesis-num">04</div>
+      <h3>global lens, local knowledge</h3>
+      <p>our sit network gives us on-the-ground insight in markets others overlook. edge is earned, not downloaded from a bloomberg terminal.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="index.html" class="footer-logo">bwrld</a>
+  <p>© 2025 bwrld · a spark institute of technology company</p>
+  <div class="footer-links">
+    <a href="services.html">services</a>
+    <a href="portfolio.html">portfolio</a>
+    <a href="about.html">about</a>
+    <a href="contact.html">contact</a>
+  </div>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible'); }), { threshold: 0.1 });
+  els.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

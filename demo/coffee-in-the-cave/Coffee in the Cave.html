@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Coffee in the Cave · Settle</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=DM+Sans:wght@400;700&display=swap">
+<style>
+:root{--ink:#fff7e6;--pink:#ff3d9a;--yel:#ffd23f;--cyan:#22e4ff;--lime:#9dff3d;--orange:#ff7a1a;--h:265;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:hsl(var(--h) 75% 9%);color:var(--ink);font:400 1.1rem/1.5 "DM Sans",system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3,.big{font-family:"Bowlby One",Impact,sans-serif;font-weight:400;line-height:1;margin:0}
+a{color:inherit}
+#bar{position:fixed;top:env(safe-area-inset-top,0px);left:0;height:6px;width:100%;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,var(--pink),var(--yel),var(--cyan),var(--lime));z-index:50}
+#depth{position:fixed;right:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:50;background:var(--yel);color:#1a0b3b;font-weight:700;padding:.5rem 1rem;border-radius:99px;box-shadow:0 4px 0 #a07d00;font-size:.95rem}
+#glow{position:fixed;width:400px;height:400px;margin:-200px 0 0 -200px;border-radius:50%;background:radial-gradient(circle,#ff3d9a66,transparent 65%);pointer-events:none;z-index:1;left:-999px;top:0}
+.hero{position:relative;height:100vh;min-height:560px;display:grid;place-items:center;text-align:center;overflow:hidden;padding:0 1rem}
+.layer{position:absolute;will-change:transform}
+.blob{border-radius:50%;filter:blur(60px);opacity:.55}
+.b1{width:380px;height:380px;background:var(--cyan);top:-90px;left:-90px}
+.b2{width:340px;height:340px;background:var(--orange);bottom:0;right:-70px}
+.b3{width:260px;height:260px;background:var(--pink);top:35%;left:50%}
+.drips{top:0;left:0;width:100%;height:170px;fill:#0b0420;z-index:2}
+.drips path{transform-origin:top;animation:drip 3.5s ease-in-out infinite alternate}
+.drips path:nth-child(2n){animation-delay:-1.2s}.drips path:nth-child(3n){animation-delay:-2.3s}
+@keyframes drip{to{transform:scaleY(1.25)}}
+.inner{position:relative;z-index:3;will-change:transform,opacity}
+.tag{display:inline-block;background:var(--yel);color:#1a0b3b;font-weight:700;padding:.4rem 1rem;border-radius:99px;animation:wob 3s ease-in-out infinite}
+@keyframes wob{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg) scale(1.06)}}
+h1{font-size:clamp(3rem,13vw,9rem);margin:1.2rem 0 .6rem;text-shadow:4px 4px 0 var(--pink),8px 8px 0 var(--cyan)}
+h1 span{display:inline-block;animation:bounce 2.4s ease-in-out infinite}
+@keyframes bounce{50%{transform:translateY(-14px) rotate(-2deg)}}
+.sub{font-size:1.3rem;max-width:34ch;margin:0 auto 1.5rem}
+.cup{width:140px;display:block;margin:0 auto 1.2rem}
+.steam{stroke:var(--ink);stroke-width:6;fill:none;stroke-linecap:round;opacity:0;animation:steam 3s ease-out infinite}
+.steam:nth-of-type(2){animation-delay:.8s}.steam:nth-of-type(3){animation-delay:1.6s}
+@keyframes steam{0%{opacity:0;transform:translateY(14px)}40%{opacity:.9}100%{opacity:0;transform:translateY(-16px)}}
+.scrollcue{position:absolute;bottom:1.5rem;left:50%;z-index:3;font-weight:700;animation:bounce 1.6s infinite}
+.btn{display:inline-block;text-decoration:none;font-weight:700;padding:.9rem 1.8rem;border-radius:99px;background:var(--pink);color:#fff;box-shadow:0 6px 0 #8a0a50;transition:transform .15s,box-shadow .15s;margin:.4rem}
+.btn:hover{transform:translateY(3px);box-shadow:0 3px 0 #8a0a50}
+.btn.alt{background:var(--cyan);color:#1a0b3b;box-shadow:0 6px 0 #0a8599}
+.rows{overflow:hidden;padding:2rem 0;transform:rotate(-3deg);margin:0 -3rem}
+.row{white-space:nowrap;font-family:"Bowlby One",Impact,sans-serif;font-size:clamp(2rem,7vw,4.5rem);padding:.3rem 0;will-change:transform}
+.row.a{color:var(--yel)}.row.b{color:transparent;-webkit-text-stroke:2px var(--cyan)}
+.statement{max-width:1000px;margin:0 auto;padding:12vh 1.2rem;font-family:"Bowlby One",Impact,sans-serif;font-size:clamp(1.8rem,6vw,4rem);line-height:1.15}
+.statement span{opacity:.15;display:inline-block;transition:opacity .2s,transform .3s,color .3s}
+.statement span.on{opacity:1;transform:none}
+.statement span.hot{color:var(--yel)}
+.hs{height:320vh;position:relative}
+.stick{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.stick h2{font-size:clamp(2rem,6vw,4rem);padding:0 8vw;margin-bottom:2rem}
+.track{display:flex;gap:2rem;padding:0 8vw;will-change:transform}
+.card{flex:0 0 min(78vw,420px);min-height:300px;border-radius:32px;padding:2rem;color:#1a0b3b;will-change:transform}
+.card h3{font-size:2rem;margin:.6rem 0}
+.card .ic{font-size:3.4rem;display:block}
+.c1{background:var(--yel)}.c2{background:var(--cyan)}.c3{background:var(--lime)}.c4{background:var(--pink);color:#fff}
+.stats{max-width:1100px;margin:0 auto;padding:10vh 1.2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;text-align:center}
+.stat{border:4px solid var(--pink);border-radius:32px;padding:2rem 1rem;will-change:transform}
+.stat b{font-family:"Bowlby One",Impact,sans-serif;font-size:4rem;display:block;color:var(--yel)}
+.find{margin:8vh 1rem;border-radius:40px;padding:4rem 1.5rem;text-align:center;color:#fff;background:linear-gradient(135deg,var(--pink),var(--orange));will-change:transform}
+.find h2{font-size:clamp(2.4rem,9vw,6rem);text-shadow:4px 4px 0 #1a0b3b;margin-bottom:1.5rem}
+.find p{font-size:1.3rem;margin:.4rem 0}
+footer{text-align:center;padding:3rem 1rem 6rem;opacity:.8}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}.statement span{opacity:1}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div id="depth">⛏ Depth: 0m</div>
+<div id="glow"></div>
+
+<header class="hero" id="hero">
+  <div class="layer blob b1" data-s="0.3"></div>
+  <div class="layer blob b2" data-s="0.6"></div>
+  <div class="layer blob b3" data-s="0.15"></div>
+  <svg class="layer drips" data-s="-0.3" viewBox="0 0 1000 150" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 0h140l-30 60-30-60z"/><path d="M140 0h120l-25 110-35-110z"/><path d="M260 0h110l-30 50-25-50z"/><path d="M370 0h130l-40 130-40-130z"/><path d="M500 0h110l-25 70-30-70z"/><path d="M610 0h130l-30 100-40-100z"/><path d="M740 0h120l-30 55-30-55z"/><path d="M860 0h140l-45 120-45-120z"/>
+  </svg>
+  <div class="inner" id="inner">
+    <span class="tag">Market Place · Settle</span>
+    <h1><span>Coffee</span> <span style="animation-delay:.2s">in</span> <span style="animation-delay:.4s">the</span> <span style="animation-delay:.6s">Cave</span></h1>
+    <p class="sub">Duck underneath the ice-cream shop and find your new favourite coffee hideout.</p>
+    <svg class="cup" id="cup" viewBox="0 0 120 130" aria-hidden="true">
+      <path class="steam" d="M40 40q-10-12 0-24"/><path class="steam" d="M60 40q-10-12 0-24"/><path class="steam" d="M80 40q-10-12 0-24"/>
+      <path d="M20 50h80v30a30 30 0 0 1-30 30H50a30 30 0 0 1-30-30z" fill="#ffd23f"/>
+      <path d="M100 58h8a14 14 0 0 1 0 28h-10" fill="none" stroke="#ffd23f" stroke-width="8"/>
+      <ellipse cx="60" cy="50" rx="40" ry="7" fill="#ff3d9a"/>
+      <rect x="10" y="118" width="100" height="8" rx="4" fill="#22e4ff"/>
+    </svg>
+    <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Coffee+in+the+Cave+Market+Place+Settle+BD24+9EJ" target="_blank" rel="noopener">Get directions</a>
+    <a class="btn alt" href="tel:+447780438895">Call us</a>
+  </div>
+  <div class="scrollcue" style="transform:translateX(-50%)">↓ scroll into the cave</div>
+</header>
+
+<div class="rows" aria-hidden="true">
+  <div class="row a" data-dir="1">DINE IN ★ TAKEAWAY ★ DINE IN ★ TAKEAWAY ★ DINE IN ★ TAKEAWAY ★ DINE IN ★ TAKEAWAY ★</div>
+  <div class="row b" data-dir="-1">UNDER THE ICE-CREAM SHOP ★ SETTLE ★ UNDER THE ICE-CREAM SHOP ★ SETTLE ★ UNDER THE ICE-CREAM SHOP ★</div>
+</div>
+
+<p class="statement" id="statement">Hidden under the ice-cream shop. Hot coffee. Big vibes. Rated 5.0 by people who found the cave.</p>
+
+<div class="hs" id="hs">
+  <div class="stick">
+    <h2>Why you’ll love it →</h2>
+    <div class="track" id="track">
+      <div class="card c1"><span class="ic">☕</span><h3>Dine in</h3><p>Settle in, get cosy and take your time in our one-of-a-kind cave.</p></div>
+      <div class="card c2"><span class="ic">🥤</span><h3>Takeaway</h3><p>In a rush? Grab your coffee and go explore the market town.</p></div>
+      <div class="card c3"><span class="ic">🍦</span><h3>Hidden gem</h3><p>Find us right under the ice-cream shop, in the heart of Market Place.</p></div>
+      <div class="card c4"><span class="ic">💸</span><h3>£1–10</h3><p>Big flavour, tiny price. Most people spend £1–10 each.</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="stats" id="stats">
+  <div class="stat"><b data-n="5.0">0</b>Google rating</div>
+  <div class="stat"><b data-n="27">0</b>Google reviews</div>
+  <div class="stat"><b>£1–10</b>Per person</div>
+</div>
+
+<div class="find" id="find">
+  <h2>Come find us!</h2>
+  <p><b>Market Pl, Settle BD24 9EJ</b></p>
+  <p>📞 <a href="tel:+447780438895">07780 438895</a></p>
+  <p>Opening hours: check Google Maps for today’s times.</p>
+  <p><a class="btn alt" href="https://www.google.com/maps/search/?api=1&query=Coffee+in+the+Cave+Market+Place+Settle+BD24+9EJ" target="_blank" rel="noopener">Open in Google Maps</a></p>
+</div>
+<footer>© Coffee in the Cave · Market Place, Settle</footer>
+
+<script>
+(function(){
+  var $=function(s){return document.querySelector(s)},$$=function(s){return [].slice.call(document.querySelectorAll(s))};
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var st=$('#statement'),words=st.textContent.split(' ');
+  st.innerHTML=words.map(function(w,i){return '<span'+(/Hot|coffee|5\.0|cave/i.test(w)?' class="hot"':'')+'>'+w+' </span>'}).join('');
+  var sp=$$('#statement span'),counted=false;
+  function prog(el){var r=el.getBoundingClientRect(),vh=innerHeight;return Math.min(1,Math.max(0,(vh-r.top)/(vh+r.height)))}
+  function run(){
+    var y=scrollY,vh=innerHeight,max=document.documentElement.scrollHeight-vh;
+    $('#bar').style.transform='scaleX('+(y/max)+')';
+    document.documentElement.style.setProperty('--h',265+Math.round(y/max*110));
+    $('#depth').textContent='⛏ Depth: '+Math.round(y/10)+'m';
+    if(reduce)return;
+    var hp=Math.min(1,y/vh);
+    $$('.layer').forEach(function(l){l.style.transform='translateY('+(y*l.dataset.s)+'px) rotate('+(y*l.dataset.s*0.05)+'deg)'});
+    $('#inner').style.transform='translateY('+(y*0.35)+'px) scale('+(1-hp*0.25)+')';
+    $('#inner').style.opacity=1-hp*1.1;
+    $('#cup').style.transform='rotate('+(hp*40)+'deg)';
+    $$('.row').forEach(function(r){r.style.transform='translateX('+(-y*0.5*r.dataset.dir-(r.dataset.dir<0?0:600))+'px)'});
+    var sw=st.getBoundingClientRect(),sprog=Math.min(1,Math.max(0,(vh*0.85-sw.top)/(sw.height+vh*0.1)));
+    sp.forEach(function(s,i){var on=sprog>i/sp.length;s.classList.toggle('on',on);s.style.transform=on?'none':'translateY(20px) rotate(4deg)'});
+    var hs=$('#hs'),r=hs.getBoundingClientRect(),p=Math.min(1,Math.max(0,-r.top/(r.height-vh))),t=$('#track');
+    t.style.transform='translateX('+(-p*(t.scrollWidth-innerWidth+innerWidth*0.08))+'px)';
+    $$('.card').forEach(function(c,i){var cr=c.getBoundingClientRect(),d=(cr.left+cr.width/2-innerWidth/2)/innerWidth;c.style.transform='rotate('+(d*-8)+'deg) scale('+(1-Math.min(.2,Math.abs(d)*.2))+') translateY('+(Math.abs(d)*40)+'px)'});
+    $$('.stat').forEach(function(s,i){var q=prog(s);s.style.transform='scale('+(0.6+q*0.5>1?1:0.6+q*0.8)+') rotate('+((0.5-q)*(i-1)*30)+'deg)'});
+    var f=prog($('#find'));$('#find').style.transform='scale('+(0.8+Math.min(f*0.6,0.2))+') rotate('+((0.5-f)*6)+'deg)';
+    if(!counted&&prog($('#stats'))>.4){counted=true;$$('[data-n]').forEach(count)}
+  }
+  function count(el){var t=parseFloat(el.dataset.n),d=el.dataset.n.indexOf('.')>-1?1:0,s=null;
+    function f(ts){s=s||ts;var p=Math.min((ts-s)/1500,1);el.textContent=(t*p).toFixed(d);if(p<1)requestAnimationFrame(f)}
+    requestAnimationFrame(f)}
+  var tick=false;function onS(){if(!tick){tick=true;requestAnimationFrame(function(){run();tick=false})}}
+  addEventListener('scroll',onS,{passive:true});addEventListener('resize',onS);run();
+  addEventListener('pointermove',function(e){var g=$('#glow');g.style.left=e.clientX+'px';g.style.top=e.clientY+'px'});
+})();
+</script>
+</body>
+</html>
